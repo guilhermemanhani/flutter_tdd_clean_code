@@ -7,7 +7,7 @@ import 'package:flutter_test/flutter_test.dart';
 import '../../../../fixtures/fixture_reader.dart';
 
 void main() {
-  final tNumberTriviaModel = NumberTriviaModel(number: 1, text: 'Test text');
+  const tNumberTriviaModel = NumberTriviaModel(number: 1, text: 'Test text');
 
   test(
     'É um subclass de NumberTrivial entity',
