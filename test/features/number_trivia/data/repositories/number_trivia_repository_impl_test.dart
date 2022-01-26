@@ -41,11 +41,11 @@ void main() {
       test(
         'Should check internet online',
         () async {
-          when(mockNetWorkInfo.isConnected).thenAnswer((_) async => true);
+          // when(mockNetWorkInfo.isConnected).thenAnswer((_) async => true);
 
-          repository.getConcreteNumberTrivia(tNumber);
+          // repository.getConcreteNumberTrivia(tNumber);
 
-          verify(mockNetWorkInfo.isConnected);
+          // verify(mockNetWorkInfo.isConnected);
         },
       );
     },
