@@ -1,53 +1,61 @@
+import 'package:dartz/dartz.dart';
 import 'package:flutter_tdd_clean_code/core/platform/network_info.dart';
 import 'package:flutter_tdd_clean_code/features/number_trivia/data/datasources/number_trivia_local_data_source.dart';
 import 'package:flutter_tdd_clean_code/features/number_trivia/data/datasources/number_trivia_remote_data_source.dart';
 import 'package:flutter_tdd_clean_code/features/number_trivia/data/models/number_trivia_model.dart';
 import 'package:flutter_tdd_clean_code/features/number_trivia/data/repositories/number_trivia_repository_impl.dart';
 import 'package:flutter_tdd_clean_code/features/number_trivia/domain/entities/number_trivia.dart';
+import 'package:mockito/annotations.dart';
+import 'package:mockito/mockito.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mocktail/mocktail.dart';
 
-class MockRemoteDataSource extends Mock
-    implements NumberTriviaRemoteDataSource {}
+import 'number_trivia_repository_impl_test.mocks.dart';
 
 class MockLocalDataSource extends Mock implements NumberTriviaLocalDataSource {}
 
-class MockNetWorkInfo extends Mock implements NetworkInfo {}
+// class MockNetworkInfo extends Mock implements NetworkInfo {}
 
+@GenerateMocks([NetworkInfo])
+// @GenerateMocks([NumberTriviaRemoteDataSource])
+@GenerateMocks([
+  NumberTriviaRemoteDataSource
+], customMocks: [
+  MockSpec<NumberTriviaRemoteDataSource>(
+      as: #MockNumberTriviaRemoteDataSourceForTest,
+      returnNullOnMissingStub: true),
+])
 void main() {
   late NumberTriviaRepositoryImpl repository;
-  late MockRemoteDataSource mockRemoteDataSource;
+  late MockNumberTriviaRemoteDataSource mockRemoteDataSource;
   late MockLocalDataSource mockLocalDataSource;
-  late MockNetWorkInfo mockNetWorkInfo;
+  late MockNetworkInfo mockNetworkInfo;
 
   setUp(() {
-    mockRemoteDataSource = MockRemoteDataSource();
+    mockRemoteDataSource = MockNumberTriviaRemoteDataSource();
     mockLocalDataSource = MockLocalDataSource();
-    mockNetWorkInfo = MockNetWorkInfo();
+    mockNetworkInfo = MockNetworkInfo();
     repository = NumberTriviaRepositoryImpl(
       remoteDataSource: mockRemoteDataSource,
       localDataSource: mockLocalDataSource,
-      networkInfo: mockNetWorkInfo,
+      networkInfo: mockNetworkInfo,
     );
   });
 
   group(
     'getConcreteNumberTrivia',
     () {
-      const tNumber = 1;
-      const tNumberTriviaModel =
-          NumberTriviaModel(text: "teste trivia", number: tNumber);
-      const NumberTrivia tNumberTrivia = tNumberTriviaModel;
-      test(
-        'Should check internet online',
-        () async {
-          // when(mockNetWorkInfo.isConnected).thenAnswer((_) async => true);
-
-          // repository.getConcreteNumberTrivia(tNumber);
-
-          // verify(mockNetWorkInfo.isConnected);
-        },
-      );
+      final tNumber = 1;
+      final tNumberTriviaModel =
+          NumberTriviaModel(text: 'test trivia', number: tNumber);
+      final NumberTrivia tNumberTrivia = tNumberTriviaModel;
+      test('should check if the device is online', () async {
+        //arrange
+        when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
+        //act
+        repository.getConcreteNumberTrivia(tNumber);
+        //assert
+        verify(mockNetworkInfo.isConnected);
+      });
     },
   );
 }
