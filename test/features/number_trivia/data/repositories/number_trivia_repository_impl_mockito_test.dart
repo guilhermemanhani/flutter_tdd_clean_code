@@ -9,7 +9,8 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'number_trivia_repository_impl_test.mocks.dart';
+import 'number_trivia_repository_impl_mockito_test.mocks.dart';
+
 
 class MockLocalDataSource extends Mock implements NumberTriviaLocalDataSource {}
 
@@ -41,6 +42,14 @@ void main() {
     );
   });
 
+  void runTestsOnline(Function body) {
+    group('device is online', () {
+      setUp(() {
+        when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
+      });
+      body();
+    });
+  }
   group(
     'getConcreteNumberTrivia',
     () {
@@ -48,13 +57,46 @@ void main() {
       final tNumberTriviaModel =
           NumberTriviaModel(text: 'test trivia', number: tNumber);
       final NumberTrivia tNumberTrivia = tNumberTriviaModel;
-      test('should check if the device is online', () async {
+      test('should check if the device is online mockito', () async {
         //arrange
-        when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
+        // when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
         //act
-        repository.getConcreteNumberTrivia(tNumber);
+        // repository.getConcreteNumberTrivia(tNumber);
+      when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
+      when(mockRemoteDataSource.getConcreteNumberTrivia(tNumber)).thenAnswer((_) async => tNumberTriviaModel);
+      // act
+      await repository.getConcreteNumberTrivia(tNumber);
         //assert
         verify(mockNetworkInfo.isConnected);
+      });
+
+      runTestsOnline(() {
+        test(
+            'should return remote data when the call to remote data source is successful',
+            () async {
+          //arrange
+          when(mockRemoteDataSource.getConcreteNumberTrivia(any))
+            .thenAnswer((_) async => tNumberTriviaModel);
+          //act
+          final result = await repository.getConcreteNumberTrivia(tNumber);
+          //assert
+          verify(mockRemoteDataSource.getConcreteNumberTrivia(tNumber));
+          expect(result, equals(Right(tNumberTrivia)));
+        });
+
+        test(
+          'should cache the data locally when the call to remote data source is successful',
+          () async {
+            // arrange
+            when(mockRemoteDataSource.getConcreteNumberTrivia(tNumber))
+            .thenAnswer((_) async => tNumberTriviaModel);
+            // act
+            await repository.getConcreteNumberTrivia(tNumber);
+            // assert
+            verify(mockRemoteDataSource.getConcreteNumberTrivia(tNumber));
+            verify(mockLocalDataSource.cacheNumberTrivia(tNumberTriviaModel));
+          },
+        );
       });
     },
   );

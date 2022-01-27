@@ -6,8 +6,11 @@ abstract class NumberTriviaRepository {
   Future<Either<Failures, NumberTrivia>> getConcreteNumberTrivia(int number);
   Future<Either<Failures, NumberTrivia>> getRandomNumberTrivia();
 
-  //  ! fazer mais casos de teste com retornos e parametros diferentes
-  Future<Either<Failures, NumberTrivia>> getRandomNumbeTrivia(int?  number);
-  Future<Either<Failures, NumberTrivia?>> getRandomNumbTrivia(int number);
+  
+  // *
+  // TODO: fazer mais casos de teste com retornos e parametros diferentes
+  // *
+  Future<Either<Failures, NumberTrivia>> getConcreteNumberTriviaNullParam(int?  number);
+  Future<Either<Failures, NumberTrivia?>> getConcreteNumberTriviaNullReturn(int number);
   
 }
