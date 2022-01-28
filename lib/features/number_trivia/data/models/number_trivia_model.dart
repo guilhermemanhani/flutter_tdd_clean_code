@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter_tdd_clean_code/features/number_trivia/domain/entities/number_trivia.dart';
 
 class NumberTriviaModel extends NumberTrivia {

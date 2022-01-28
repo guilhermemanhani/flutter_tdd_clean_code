@@ -1,7 +1,6 @@
 import 'package:dartz/dartz.dart';
 
 import 'package:flutter_tdd_clean_code/core/error/failures.dart';
-import 'package:flutter_tdd_clean_code/core/error/server_exceptions.dart';
 import 'package:flutter_tdd_clean_code/core/platform/network_info.dart';
 import 'package:flutter_tdd_clean_code/features/number_trivia/data/datasources/number_trivia_local_data_source.dart';
 import 'package:flutter_tdd_clean_code/features/number_trivia/data/datasources/number_trivia_remote_data_source.dart';
@@ -27,9 +26,9 @@ class NumberTriviaRepositoryImpl implements NumberTriviaRepository {
   @override
   Future<Either<Failures, NumberTrivia>> getConcreteNumberTrivia(
       int number) async {
-    
     await _networkInfo.isConnected;
-    final remoteTrivia = await _remoteDataSource.getConcreteNumberTrivia(number);
+    final remoteTrivia =
+        await _remoteDataSource.getConcreteNumberTrivia(number);
     _localDataSource.cacheNumberTrivia(remoteTrivia);
     // return Right(await _remoteDataSource.getConcreteNumberTrivia(number));
     return Right(remoteTrivia);
@@ -64,17 +63,18 @@ class NumberTriviaRepositoryImpl implements NumberTriviaRepository {
   // }
 
   @override
-  Future<Either<Failures, NumberTrivia>> getConcreteNumberTriviaNullParam(int? number) async {
-    if(number != null) {
+  Future<Either<Failures, NumberTrivia>> getConcreteNumberTriviaNullParam(
+      int? number) async {
+    if (number != null) {
       return Right(await _remoteDataSource.getConcreteNumberTrivia(number));
     } else {
       return Left(ServerFailures());
     }
-    
   }
 
   @override
-  Future<Either<Failures, NumberTrivia?>> getConcreteNumberTriviaNullReturn(int number) async {
-    return Right(await _remoteDataSource.getConcreteNumberTrivia(number)); 
+  Future<Either<Failures, NumberTrivia?>> getConcreteNumberTriviaNullReturn(
+      int number) async {
+    return Right(await _remoteDataSource.getConcreteNumberTrivia(number));
   }
 }
