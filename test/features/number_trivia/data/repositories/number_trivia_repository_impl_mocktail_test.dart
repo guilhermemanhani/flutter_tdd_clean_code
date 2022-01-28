@@ -126,7 +126,7 @@ void main() {
         'deve retornar erro ao buscar dados remotos quando a chamada passa null',
         () async {
           //arrange
-          when(() => mockRemoteDataSource.getConcreteNumberTrivia(tNumber))
+          when(() => mockRemoteDataSource.getConcreteNumberTrivia(any()))
               .thenAnswer((_) async => tNumberTriviaModel);
           //act
           final result =
