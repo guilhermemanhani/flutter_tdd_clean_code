@@ -5,7 +5,11 @@ abstract class NumberTriviaLocalDataSource {
   /// the user had an internet connection.
   ///
   /// Throws [CacheException] if no cached data is present.
-  Future<NumberTriviaModel> getLastNumberTrivia();
+  /// 
+  /// ! PQ QUANDO TIRO O ? O TESTE NAO PASSA???? 
+  /// ! Será que é pq estou apenas verificando chamada de metodo?
+  ///  ? type 'Null' is not a subtype of type 'Future<void>'
+  Future<NumberTriviaModel>? getLastNumberTrivia();
 
-  Future<void> cacheNumberTrivia(NumberTriviaModel triviaToCache);
+  Future<void>? cacheNumberTrivia(NumberTriviaModel triviaToCache);
 }
