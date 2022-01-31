@@ -4,7 +4,7 @@
 
 import 'dart:async' as _i4;
 
-import 'package:flutter_tdd_clean_code/core/platform/network_info.dart' as _i3;
+import 'package:flutter_tdd_clean_code/core/network/network_info.dart' as _i3;
 import 'package:flutter_tdd_clean_code/features/number_trivia/data/datasources/number_trivia_remote_data_source.dart'
     as _i5;
 import 'package:flutter_tdd_clean_code/features/number_trivia/data/models/number_trivia_model.dart'
@@ -47,11 +47,9 @@ class MockNumberTriviaRemoteDataSource extends _i1.Mock
   }
 
   @override
-  _i4.Future<_i2.NumberTriviaModel> getConcreteNumberTrivia(int? number) =>
-      (super.noSuchMethod(Invocation.method(#getConcreteNumberTrivia, [number]),
-              returnValue: Future<_i2.NumberTriviaModel>.value(
-                  _FakeNumberTriviaModel_0()))
-          as _i4.Future<_i2.NumberTriviaModel>);
+  _i4.Future<_i2.NumberTriviaModel>? getConcreteNumberTrivia(int? number) =>
+      (super.noSuchMethod(Invocation.method(#getConcreteNumberTrivia, [number]))
+          as _i4.Future<_i2.NumberTriviaModel>?);
   @override
   _i4.Future<_i2.NumberTriviaModel> getRandomNumberTrivia() =>
       (super.noSuchMethod(Invocation.method(#getRandomNumberTrivia, []),
@@ -66,11 +64,9 @@ class MockNumberTriviaRemoteDataSource extends _i1.Mock
 class MockNumberTriviaRemoteDataSourceForTest extends _i1.Mock
     implements _i5.NumberTriviaRemoteDataSource {
   @override
-  _i4.Future<_i2.NumberTriviaModel> getConcreteNumberTrivia(int? number) =>
-      (super.noSuchMethod(Invocation.method(#getConcreteNumberTrivia, [number]),
-              returnValue: Future<_i2.NumberTriviaModel>.value(
-                  _FakeNumberTriviaModel_0()))
-          as _i4.Future<_i2.NumberTriviaModel>);
+  _i4.Future<_i2.NumberTriviaModel>? getConcreteNumberTrivia(int? number) =>
+      (super.noSuchMethod(Invocation.method(#getConcreteNumberTrivia, [number]))
+          as _i4.Future<_i2.NumberTriviaModel>?);
   @override
   _i4.Future<_i2.NumberTriviaModel> getRandomNumberTrivia() =>
       (super.noSuchMethod(Invocation.method(#getRandomNumberTrivia, []),

@@ -2,7 +2,7 @@ import 'package:dartz/dartz.dart';
 
 import 'package:flutter_tdd_clean_code/core/error/failures.dart';
 import 'package:flutter_tdd_clean_code/core/error/server_exceptions.dart';
-import 'package:flutter_tdd_clean_code/core/platform/network_info.dart';
+import 'package:flutter_tdd_clean_code/core/network/network_info.dart';
 import 'package:flutter_tdd_clean_code/features/number_trivia/data/datasources/number_trivia_local_data_source.dart';
 import 'package:flutter_tdd_clean_code/features/number_trivia/data/datasources/number_trivia_remote_data_source.dart';
 import 'package:flutter_tdd_clean_code/features/number_trivia/data/models/number_trivia_model.dart';
@@ -28,7 +28,7 @@ class NumberTriviaRepositoryImpl implements NumberTriviaRepository {
   Future<Either<Failures, NumberTrivia>> getConcreteNumberTrivia(
       int number) async {
     return await _getTrivia(() {
-      return _remoteDataSource.getConcreteNumberTrivia(number);
+      return _remoteDataSource.getConcreteNumberTrivia(number)!;
     });
     // if (await _networkInfo.isConnected) {
     //   try {
@@ -96,7 +96,7 @@ class NumberTriviaRepositoryImpl implements NumberTriviaRepository {
   Future<Either<Failures, NumberTrivia>> getConcreteNumberTriviaNullParam(
       int? number) async {
     if (number != null) {
-      return Right(await _remoteDataSource.getConcreteNumberTrivia(number));
+      return Right(await _remoteDataSource.getConcreteNumberTrivia(number)!);
     } else {
       return Left(ServerFailures());
     }
