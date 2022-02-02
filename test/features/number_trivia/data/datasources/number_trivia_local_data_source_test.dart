@@ -55,23 +55,15 @@ void main() {
   });
 
   group('cacheNumberTrivia', () {
-    const tNumberTriviaModel =
+    final tNumberTriviaModel =
         NumberTriviaModel(number: 1, text: 'test trivia');
-
     test('should call SharedPreferences to cache the data', () async {
-      //arrangev
-      const tHasSetStringFuture = true;
-      final expectedJsonString = json.encode(tNumberTriviaModel.toJson());
-      when(mockSharedPreferences.setString(
-              cachedNumberTriviaString, expectedJsonString))
-          .thenAnswer((_) async => tHasSetStringFuture);
       //act
-      final result = await dataSource.cacheNumberTrivia(tNumberTriviaModel);
+      dataSource.cacheNumberTrivia(tNumberTriviaModel);
       //assert
-
-      // verify(mockSharedPreferences.setString(
-      //     cachedNumberTriviaString, expectedJsonString));
-      expect(result, equals(tHasSetStringFuture));
+      final expectedJsonString = json.encode(tNumberTriviaModel.toJson());
+      verify(mockSharedPreferences.setString(
+          cachedNumberTriviaString, expectedJsonString));
     });
   });
 }
